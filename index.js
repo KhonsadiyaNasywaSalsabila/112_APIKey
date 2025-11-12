@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 const port = 3000
 
@@ -31,6 +32,14 @@ async function checkDbConnection() {
     }
 }
 checkDbConnection(); // Jalankan pengecekan koneksi
+
+// 1. Middleware untuk menyajikan file statis dari folder 'public'
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 2. Handler untuk permintaan root ('/')
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 
 app.listen(port, () => {
